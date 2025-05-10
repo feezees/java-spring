@@ -14,6 +14,10 @@ public class NoteService {
     @Autowired
     private NoteRepository noteRepository;
 
+    public List<Note> getAllNotes(){
+        return noteRepository.findAll();
+    }
+
     public Optional<Note> getNoteById(Long id) {
         return noteRepository.findById(id);
     }
