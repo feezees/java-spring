@@ -10,9 +10,8 @@ const checkCookie = async () => {
       method: "GET",
       credentials: "include",
       headers: {
-        "Content-Type": "text/plain",
-        credentials: "include",
-      },
+        "Content-Type": "text/plain"
+      }
     });
 
     const responseValue = await response.text();
@@ -29,8 +28,8 @@ const setAdminCookie = async () => {
       method: "PUT",
       credentials: "include",
       headers: {
-        "Content-Type": "text/plain",
-      },
+        "Content-Type": "text/plain"
+      }
     });
 
     const responseValue = await response.text();
@@ -39,6 +38,25 @@ const setAdminCookie = async () => {
     console.error("Error:", error);
   }
 };
+
+// btnRemoveAdminCookie
+const removeAdminCookie = async () => {
+  try {
+    const response = await fetch("http://localhost:8080/api/cookie", {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Content-Type": "text/plain"
+      }
+    });
+
+    const responseValue = await response.text();
+    console.log(responseValue);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
 
 const inc = async () => {
   console.log(usernameId);
@@ -63,3 +81,4 @@ inc(); // init;
 btnInc.onclick = () => inc();
 btnCheckCookie.onclick = () => checkCookie();
 btnSetAdminCookie.onclick = () => setAdminCookie();
+btnRemoveAdminCookie.onclick = () => removeAdminCookie();

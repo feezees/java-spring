@@ -32,7 +32,7 @@ public class CookieController {
         Cookie cookie = new Cookie("user", "Admin");
         cookie.setMaxAge(3600);
         cookie.setPath("/");
-        cookie.setDomain("localhost");
+        cookie.setDomain(null);
         cookie.setHttpOnly(false);
         cookie.setSecure(false);
         response.addCookie(cookie);
