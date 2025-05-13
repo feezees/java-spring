@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.entity.Note;
+import com.example.demo.entity.User;
 import com.example.demo.repository.NoteRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -32,14 +33,18 @@ public class DataInitializer implements CommandLineRunner {
                 "CREATE TABLE IF NOT EXISTS notes (id BIGINT AUTO_INCREMENT PRIMARY KEY, user_id VARCHAR(255) NOT NULL, note_value VARCHAR(255) NOT NULL)"
             ).executeUpdate();
 
-            // Create some sample notes
-            Note note1 = new Note("user1", "Первая заметка пользователя 1");
-            Note note2 = new Note("user1", "Вторая заметка пользователя 1");
-            Note note3 = new Note("user2", "Первая заметка пользователя 2");
-            Note note4 = new Note("user2", "Важная заметка пользователя 2");
-            Note note5 = new Note("user3", "Единственная заметка пользователя 3");
+            User user1 = new User("username1", "admin");
+            User user2 = new User("username2", "moderator");
+            User user3 = new User("username3", "user");
 
-            // Save notes to database
+            Note note1 = new Note(user1.getId(), "Первая заметка пользователя 1");
+            Note note2 = new Note(user1.getId(), "Вторая заметка пользователя 1");
+            Note note3 = new Note(user2.getId(), "Первая заметка пользователя 2");
+            Note note4 = new Note(user2.getId(), "Важная заметка пользователя 2");
+            Note note5 = new Note(user3.getId(), "Единственная заметка пользователя 3");
+
+            
+
             noteRepository.saveAll(Arrays.asList(note1, note2, note3, note4, note5));
 
             System.out.println("Sample data initialized successfully!");

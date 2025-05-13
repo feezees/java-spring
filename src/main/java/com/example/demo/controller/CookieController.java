@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,7 +44,11 @@ public class CookieController {
     @GetMapping("/check")
     public ResponseEntity<String> checkCookie(HttpServletRequest request) {
         String cookieUser = cookieEntity.getCookiesUser(request);
-        String body = cookieUser == "undefined" ? "cookie not found" : cookieUser;
-        return ResponseEntity.ok().body(body);
+
+        if (cookieUser == "undefined"){
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user cookie not found");
+        }
+
+        return ResponseEntity.ok().body(cookieUser);
     }
 }

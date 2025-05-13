@@ -22,11 +22,11 @@ public class NoteService {
         return noteRepository.findById(id);
     }
 
-    public List<Note> getNotesByUserId(String userId) {
+    public List<Note> getNotesByUserId(Long userId) {
         return noteRepository.findByUserId(userId);
     }
 
-    public Note createNote(String userId, String noteValue) {
+    public Note createNote(Long userId, String noteValue) {
         Note note = new Note(userId, noteValue);
         return noteRepository.save(note);
     }
