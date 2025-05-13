@@ -1,6 +1,9 @@
 package com.example.demo.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.entity.Cookies;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,56 +26,24 @@ public class CookieController {
 
     public boolean successValue = true;
 
+    public Cookies cookieEntity = new Cookies();
+
     @PutMapping("/admin")
     public String setAdminCookie(HttpServletRequest request, HttpServletResponse response) {
-        Cookie[] cookies = request.getCookies();
-
-        if (cookies == null || cookies.length == 0) {
-            System.out.println("cookie not found");
-        }
-
-        Cookie cookie = new Cookie("user", "Admin");
-        cookie.setMaxAge(3600);
-        cookie.setPath("/");
-        cookie.setDomain(null);
-        cookie.setHttpOnly(false);
-        cookie.setSecure(false);
-        response.addCookie(cookie);
-
+        cookieEntity.setCookieUser(response, "Admin");
         return "admin cookie added";
     }
 
     @DeleteMapping
     public String deleteCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie("user", null); // Значение не важно
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-
+        cookieEntity.removeCookie(response);
         return "cookie removed";
     }
 
     @GetMapping("/check")
-    public String checkCookie(HttpServletRequest request) {
-
-        Cookie[] cookies = request.getCookies();
-
-        if (cookies == null || cookies.length == 0) {
-            return "cookie not found";
-        }
-
-        StringBuilder result = new StringBuilder("Список кук:<br>");
-        for (Cookie cookie : cookies) {
-            result.append(String.format(
-                    "Имя: %s, Значение: %s, Путь: %s, MaxAge: %d<br>",
-                    cookie.getName(),
-                    cookie.getValue(),
-                    cookie.getPath(),
-                    cookie.getMaxAge()));
-        }
-
-        System.out.println(result.toString());
-        return result.toString();
+    public ResponseEntity<String> checkCookie(HttpServletRequest request) {
+        String cookieUser = cookieEntity.getCookiesUser(request);
+        String body = cookieUser == "undefined" ? "cookie not found" : cookieUser;
+        return ResponseEntity.ok().body(body);
     }
-
 }
