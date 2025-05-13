@@ -3,7 +3,7 @@ import { SChildren } from "../types"
 
 export const Header: FC<{ children: SChildren }> = ({ children }) => {
     return (
-        <header className="flex w-full justify-between h-12">
+        <header className="flex w-full justify-between h-12 mb-4">
             {children}
         </header>
     )

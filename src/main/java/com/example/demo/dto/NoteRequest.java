@@ -1,22 +1,24 @@
 package com.example.demo.dto;
 
+import java.util.UUID;
+
 public class NoteRequest {
-    private String userId;
+    private UUID userId;
     private String noteValue;
 
     public NoteRequest() {
     }
 
-    public NoteRequest(String userId, String noteValue) {
+    public NoteRequest(UUID userId, String noteValue) {
         this.userId = userId;
         this.noteValue = noteValue;
     }
 
-    public String getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 

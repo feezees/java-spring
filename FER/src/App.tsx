@@ -1,5 +1,4 @@
 import React, { useLayoutEffect, useState } from 'react';
-import logo from './logo.svg';
 import axios from 'axios';
 import { Button } from './ui/Button';
 import { Layout } from './ui/Layout';
@@ -73,6 +72,32 @@ function App() {
       });
   }
 
+
+  const handleGetNotesById = (id: string) => {
+    setAuthloading(true);
+
+    axios({
+      method: 'GET',
+      url: `http://localhost:8080/api/notes/${id}`,
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+    })
+      .then(response => {
+        setAuthloading(false);
+        setLoggedIn(false);
+        console.log(response.data);
+      })
+      .catch(error => {
+        setAuthloading(false);
+        setLoggedIn(false);
+        console.error('Ошибка:', error.response ? error.response.data : error.message);
+      });
+  }
+
+
+
   useLayoutEffect(() => {
     handleCheckAuth();
   }, [])
@@ -99,6 +124,8 @@ function App() {
         <Button onClick={handleCheckAuth} text='check cookie' />
         <Button onClick={handleLogout} text='logout' />
       </Header>
+      <Button onClick={() => handleGetNotesById('1')} text='handleGetNotesByUserId' />
+
     </Layout>
   );
 }

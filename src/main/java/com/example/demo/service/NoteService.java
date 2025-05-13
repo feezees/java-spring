@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Cookies;
 import com.example.demo.entity.Note;
 import com.example.demo.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,12 @@ public class NoteService {
     }
 
     public Optional<Note> getNoteById(Long id) {
+        
         return noteRepository.findById(id);
     }
 
     public List<Note> getNotesByUserId(UUID userId) {
-        return noteRepository.findByUserId(userId);
+        return noteRepository.findByUserId(  userId);
     }
 
     public Note createNote(UUID userId, String noteValue) {
