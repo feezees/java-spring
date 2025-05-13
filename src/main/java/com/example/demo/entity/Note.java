@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.util.UUID;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -10,7 +12,7 @@ public class Note {
     private Long id;
 
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private UUID userId;
 
     @Column(name = "note_value", nullable = false)
     private String noteValue;
@@ -18,7 +20,7 @@ public class Note {
     public Note() {
     }
 
-    public Note(Long userId, String noteValue) {
+    public Note(UUID userId, String noteValue) {
         this.userId = userId;
         this.noteValue = noteValue;
     }
@@ -31,11 +33,11 @@ public class Note {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 

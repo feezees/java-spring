@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class NoteService {
@@ -22,11 +23,11 @@ public class NoteService {
         return noteRepository.findById(id);
     }
 
-    public List<Note> getNotesByUserId(Long userId) {
+    public List<Note> getNotesByUserId(UUID userId) {
         return noteRepository.findByUserId(userId);
     }
 
-    public Note createNote(Long userId, String noteValue) {
+    public Note createNote(UUID userId, String noteValue) {
         Note note = new Note(userId, noteValue);
         return noteRepository.save(note);
     }

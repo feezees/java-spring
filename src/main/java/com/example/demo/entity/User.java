@@ -1,13 +1,15 @@
 package com.example.demo.entity;
 
+import java.util.UUID;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -21,15 +23,16 @@ public class User {
     public User(String username, String role) {
         this.username = username;
         this.role = role;
+        this.id = UUID.randomUUID();
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // public void setId(UUID id) {
+    //     this.id = id;
+    // }
 
     public String getUsername() {
         return username;
