@@ -49,19 +49,32 @@ public class NoteController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user cookie not found");
         }
 
-        Optional<Note> n = noteService.getNoteById(id);
+        Optional<Note> resBody = noteService.getNoteById(id);
 
-        if (n == null) {
+        if (resBody == null) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(n);
+        return ResponseEntity.status(HttpStatus.OK).body(resBody);
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Note>> getNotesByUserId(@PathVariable UUID userId) {
-        List<Note> notes = noteService.getNotesByUserId(userId);
-        return ResponseEntity.ok(notes);
+    // ResponseEntity<List<Note>>
+    public ResponseEntity<Object> getNotesByUserId(@PathVariable UUID userId, HttpServletRequest req,
+            HttpServletResponse res) {
+        String cookieUser = cookies.getCookiesUser(req);
+
+        if (cookieUser == "undefined") {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user cookie not found");
+        }
+
+        List<Note> resBody = noteService.getNotesByUserId(userId);
+
+        if (resBody == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(resBody);
     }
 
     @PostMapping
