@@ -17,9 +17,6 @@ public class Note {
     @Column(name = "note_value", nullable = false)
     private String noteValue;
 
-    public Note() {
-    }
-
     public Note(UUID userId, String noteValue) {
         this.userId = userId;
         this.noteValue = noteValue;

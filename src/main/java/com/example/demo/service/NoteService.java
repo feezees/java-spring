@@ -21,12 +21,11 @@ public class NoteService {
     }
 
     public Optional<Note> getNoteById(Long id) {
-        
         return noteRepository.findById(id);
     }
 
     public List<Note> getNotesByUserId(UUID userId) {
-        return noteRepository.findByUserId(  userId);
+        return noteRepository.findByUserId(userId);
     }
 
     public Note createNote(UUID userId, String noteValue) {

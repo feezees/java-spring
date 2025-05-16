@@ -1,8 +1,11 @@
 package com.example.demo;
 
+import com.example.demo.entity.Post;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,12 +13,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DemoApplication {
 
-    public static void bar(){
-        int[] arr = {1, 2, 3, 4, 5};
+    public static void baz() {
+        // List<String> ls = List.of("A", "B", "C");
+        // Post xd = new Post(52L, ls);
+        // List<String> ww = xd.getPostData();
+        // System.out.println(ww);
+
+        UUID xd = UUID.randomUUID();
+        System.out.println(xd);
+
+    }
+
+    public static void bar() {
+        int[] arr = { 1, 2, 3, 4, 5 };
         // filter even numbers
         int[] evenNumbers = Arrays.stream(arr)
-            .filter(n -> n % 2 == 0)
-            .toArray();
+                .filter(n -> n % 2 == 0)
+                .toArray();
 
         System.out.println(Arrays.toString(evenNumbers));
     }
@@ -32,6 +46,6 @@ public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
 
-        bar();
+        baz();
     }
 }

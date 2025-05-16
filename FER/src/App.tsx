@@ -4,12 +4,13 @@ import { Button } from './ui/Button';
 import { Layout } from './ui/Layout';
 import { Header } from './ui/Header';
 import { NoteDto } from './types';
+import { Notes } from './note/Index';
+import { Posts } from './posts/Index';
 // import './App.css';
 
 function App() {
   const [authLoading, setAuthloading] = useState<boolean>(true);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
-  const [notes, setNotes] = useState<NoteDto | NoteDto[] | undefined>();
 
   const handleLoginAsAdmin = () => {
     axios({
@@ -74,47 +75,13 @@ function App() {
       });
   }
 
-  const handleGetNotesById = (id: string) => {
-    axios({
-      method: 'GET',
-      url: `http://localhost:8080/api/notes/${id}`,
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'text/plain',
-      },
-    })
-      .then(response => {
-        console.log(response.data);
-        setNotes(response.data as NoteDto);
-      })
-      .catch(error => {
-        setLoggedIn(false);
-        console.error('Ошибка:', error.response ? error.response.data : error.message);
-      });
-  }
-
-  const handleGetNotesByUserId = (userId: string) => {
-    axios({
-      method: 'GET',
-      url: `http://localhost:8080/api/notes/user/${userId}`,
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'text/plain',
-      },
-    })
-      .then(response => {
-        console.log(response.data);
-        setNotes(response.data as NoteDto[]);
-      })
-      .catch(error => {
-        setLoggedIn(false);
-        console.error('Ошибка:', error.response ? error.response.data : error.message);
-      });
-  }
+  const logout = () => setLoggedIn(false);
 
   useLayoutEffect(() => {
     handleCheckAuth();
-  }, [])
+  }, []);
+
+  const [route, setRoute] = useState<'notes' | 'posts'>('notes');
 
   if (authLoading) {
     return <Layout>
@@ -139,30 +106,15 @@ function App() {
         <Button onClick={handleLogout} text='logout' />
       </Header>
 
-      <div className='flex gap-2 my-4'>
-        <Button onClick={() => handleGetNotesById('1')} text='handleGetNotesByUserId' />
-        <Button onClick={() => handleGetNotesByUserId('12fba3c3-f3db-4907-9e90-b668efd8c83e	')} text='handleGetNotesByUserId' />
+      <div>
+        <Button onClick={() => setRoute('notes')} text='notes' />
+        <Button onClick={() => setRoute('posts')} text='posts' />
       </div>
 
-      <>
-        {
-          notes && Array.isArray(notes) && notes.map(el => <div key={el.id}>
-            <p>{el.id}</p>
-            <p>{el.userId}</p>
-            <p>{el.value}</p>
-          </div>
-          )
-        }
+      {route === 'notes' && <Notes logout={logout} />}
+      {route === 'posts' && <Posts logout={logout} />}
 
-        {
-          notes && !Array.isArray(notes) && <div>
-            <p>{notes.id}</p>
-            <p>{notes.userId}</p>
-            <p>{notes.value}</p>
-          </div>
-        }
-      </>
-    </Layout>
+    </Layout >
   );
 }
 

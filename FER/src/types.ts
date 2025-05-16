@@ -7,3 +7,9 @@ export type NoteDto = {
     userId: string,
     value: string;
 }
+
+export type PostDto = {
+    id: number,
+    author: string,
+    postBody: { bodyType: 'text' | 'image', bodyValue: string }[]
+}
