@@ -31,7 +31,7 @@ public class CookieController {
 
     @PutMapping("/admin")
     public String setAdminCookie(HttpServletRequest request, HttpServletResponse response) {
-        cookieEntity.setCookieUser(response, "Admin");
+        cookieEntity.setCookieUser(response, "admin");
         return "admin cookie added";
     }
 

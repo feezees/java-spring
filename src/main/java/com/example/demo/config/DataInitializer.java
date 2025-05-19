@@ -15,6 +15,7 @@ import com.example.demo.entity.User;
 import com.example.demo.model.PostBody;
 import com.example.demo.repository.NoteRepository;
 import com.example.demo.repository.PostRepository;
+import com.example.demo.repository.UserRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -23,6 +24,9 @@ import jakarta.transaction.Transactional;
 @Component
 @Order(1)
 public class DataInitializer implements CommandLineRunner {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private NoteRepository noteRepository;
@@ -43,9 +47,11 @@ public class DataInitializer implements CommandLineRunner {
             // ).executeUpdate();
 
          
-            User user1 = new User("username1", "admin");
-            User user2 = new User("username2", "moderator");
-            User user3 = new User("username3", "user");
+            User user1 = new User("admin", "admin");
+            User user2 = new User("moderator", "moderator");
+            User user3 = new User("user", "user");
+
+            userRepository.saveAll(Arrays.asList(user1, user2, user3));
 
             Note note1 = new Note(user1.getId(), "Первая заметка пользователя 1");
             // Note note2 = new Note(user1.getId(), "Вторая заметка пользователя 1");
