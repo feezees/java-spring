@@ -46,7 +46,6 @@ public class DataInitializer implements CommandLineRunner {
             //     "CREATE TABLE IF NOT EXISTS notes (id BIGINT AUTO_INCREMENT PRIMARY KEY, user_id VARCHAR(36) NOT NULL, note_value VARCHAR(255) NOT NULL)"
             // ).executeUpdate();
 
-         
             User user1 = new User("admin", "admin");
             User user2 = new User("moderator", "moderator");
             User user3 = new User("user", "user");

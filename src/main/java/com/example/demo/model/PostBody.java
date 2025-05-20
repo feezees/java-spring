@@ -19,4 +19,27 @@ public class PostBody {
         this.bodyType = bodyType;
         this.bodyValue = bodyValue;
     }
+
+    public String getBodyType(){
+        return this.bodyType;
+    }
+
+    public String getBodyValue(){
+        return this.bodyValue;
+    }
+
+    public boolean selfValidate(){
+        boolean bodyTypeValid = (this.bodyType == "text") || (this.bodyType == "image");
+
+        if (!bodyTypeValid) {
+            return false;
+        }
+
+        if (!(this.bodyValue instanceof String)) {
+            return false;
+        }
+
+        return true;
+    }
+
 }
