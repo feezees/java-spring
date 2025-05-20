@@ -51,6 +51,8 @@ public class NoteController {
 
         Optional<Note> resBody = noteService.getNoteById(id);
 
+       
+
         if (resBody == null) {
             return ResponseEntity.notFound().build();
         }
