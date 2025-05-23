@@ -6,6 +6,7 @@ import { Header } from './ui/Header';
 import { NoteDto } from './types';
 import { Notes } from './note/Index';
 import { Posts } from './posts/Index';
+import { Tenders } from './tenders/Index';
 // import './App.css';
 
 function App() {
@@ -81,7 +82,7 @@ function App() {
     handleCheckAuth();
   }, []);
 
-  const [route, setRoute] = useState<'notes' | 'posts'>('notes');
+  const [route, setRoute] = useState<'notes' | 'posts' | 'tenders'>('notes');
 
   if (authLoading) {
     return <Layout>
@@ -109,10 +110,12 @@ function App() {
       <div>
         <Button onClick={() => setRoute('notes')} text='notes' />
         <Button onClick={() => setRoute('posts')} text='posts' />
+        <Button onClick={() => setRoute('tenders')} text='tenders' />
       </div>
 
       {route === 'notes' && <Notes logout={logout} />}
       {route === 'posts' && <Posts logout={logout} />}
+      {route === 'tenders' && <Tenders logout={logout} />}
 
     </Layout >
   );
