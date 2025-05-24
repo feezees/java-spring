@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.annotation.RequireCookie;
 import com.example.demo.dto.QueryResponse;
-import com.example.demo.entity.Cookies;
 import com.example.demo.model.FailedResonpseBody;
 import com.example.demo.model.QueryResponseBodyItem;
 import com.example.demo.service.QueryService;
@@ -24,8 +24,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/api")
 @CrossOrigin(origins = { "http://localhost:8080", "http://localhost:3000", "http://localhost:5500",
         "http://127.0.0.1:5500" })
+@RequireCookie
 public class QueryController {
-    private Cookies cookies = new Cookies();
     private FailedResonpseBody failedResponseBody = new FailedResonpseBody(HttpStatus.UNAUTHORIZED);
 
     @Autowired
@@ -33,19 +33,13 @@ public class QueryController {
 
     @GetMapping("/tenders")
     public ResponseEntity<Object> getTenders(HttpServletRequest req) {
-        String cookieUser = cookies.getCookiesUser(req);
-
-        if (cookieUser == "undefined") {
-            System.out.println("cookie failed");
-            return ResponseEntity.internalServerError().body(failedResponseBody);
-        }
         try {
             ResponseEntity<QueryResponse> dataResponse = queryService.sendGetRequest();
             QueryResponseBodyItem[] ResponseBody = dataResponse.getBody().data;
-
+            
             List<String> ids = Arrays.stream(ResponseBody)
-                    .map(item -> item.id)
-                    .collect(Collectors.toList());
+                .map(item -> item.id)
+                .collect(Collectors.toList());
 
             return ResponseEntity.ok(ids);
         } catch (Exception e) {

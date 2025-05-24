@@ -1,36 +1,36 @@
 package com.example.demo.controller;
 
-import com.example.demo.DemoApplication;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.annotation.RequireCookie;
 import com.example.demo.dto.NoteRequest;
-import com.example.demo.entity.Cookies;
 import com.example.demo.entity.Note;
 import com.example.demo.service.NoteService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/api/notes")
 @CrossOrigin(origins = { "http://localhost:8080", "http://localhost:3000", "http://localhost:5500",
         "http://127.0.0.1:5500" })
-public class NoteController {
-
-    private Cookies cookies = new Cookies();
-
-    // @PostMapping
-    // public int logObject(@RequestBody Object object) {
-    // DemoApplication.logCounterResponse(object);
-    // return 52;
-    // }
+        @RequireCookie
+        public class NoteController {
 
     @Autowired
     private NoteService noteService;
@@ -43,15 +43,7 @@ public class NoteController {
     @GetMapping("/{id}")
     // public ResponseEntity<Note> todo грязь
     public ResponseEntity<Object> getNoteById(@PathVariable Long id, HttpServletRequest req, HttpServletResponse res) {
-        String cookieUser = cookies.getCookiesUser(req);
-
-        if (cookieUser == "undefined") {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user cookie not found");
-        }
-
         Optional<Note> resBody = noteService.getNoteById(id);
-
-       
 
         if (resBody == null) {
             return ResponseEntity.notFound().build();
@@ -64,12 +56,6 @@ public class NoteController {
     // ResponseEntity<List<Note>>
     public ResponseEntity<Object> getNotesByUserId(@PathVariable UUID userId, HttpServletRequest req,
             HttpServletResponse res) {
-        String cookieUser = cookies.getCookiesUser(req);
-
-        if (cookieUser == "undefined") {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user cookie not found");
-        }
-
         List<Note> resBody = noteService.getNotesByUserId(userId);
 
         if (resBody == null) {
