@@ -8,8 +8,13 @@ export type NoteDto = {
     value: string;
 }
 
-export type PostDto = {
-    id: number,
-    author: string,
-    postBody: { bodyType: 'text' | 'image', bodyValue: string }[]
+export interface PostBodyItem {
+    bodyType: 'text' | 'image';
+    bodyValue: string;
+}
+
+export interface PostDto {
+    id: number;
+    author: string;
+    postBody: PostBodyItem[];
 }

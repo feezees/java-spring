@@ -1,12 +1,12 @@
-import React, { useLayoutEffect, useState } from 'react';
 import axios from 'axios';
-import { Button } from './ui/Button';
-import { Layout } from './ui/Layout';
-import { Header } from './ui/Header';
-import { NoteDto } from './types';
+import { useLayoutEffect, useState } from 'react';
 import { Notes } from './note/Index';
 import { Posts } from './posts/Index';
 import { Tenders } from './tenders/Index';
+import { Button } from './ui/Button';
+import { Header } from './ui/Header';
+import { Layout } from './ui/Layout';
+import { Users } from './users/Index';
 // import './App.css';
 
 function App() {
@@ -82,7 +82,7 @@ function App() {
     handleCheckAuth();
   }, []);
 
-  const [route, setRoute] = useState<'notes' | 'posts' | 'tenders'>('notes');
+  const [route, setRoute] = useState<'notes' | 'posts' | 'tenders' | 'users'>('users');
 
   if (authLoading) {
     return <Layout>
@@ -111,11 +111,13 @@ function App() {
         <Button onClick={() => setRoute('notes')} text='notes' />
         <Button onClick={() => setRoute('posts')} text='posts' />
         <Button onClick={() => setRoute('tenders')} text='tenders' />
+        <Button onClick={() => setRoute('users')} text='users' />
       </div>
 
       {route === 'notes' && <Notes logout={logout} />}
       {route === 'posts' && <Posts logout={logout} />}
       {route === 'tenders' && <Tenders logout={logout} />}
+      {route === 'users' && <Users />}
 
     </Layout >
   );
