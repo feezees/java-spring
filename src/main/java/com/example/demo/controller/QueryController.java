@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.annotation.RequireCookie;
 import com.example.demo.dto.QueryResponse;
-import com.example.demo.model.FailedResonpseBody;
+import com.example.demo.model.FailedResponseBody;
 import com.example.demo.model.QueryResponseBodyItem;
 import com.example.demo.service.QueryService;
 
@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpServletRequest;
         "http://127.0.0.1:5500" })
 @RequireCookie
 public class QueryController {
-    private FailedResonpseBody failedResponseBody = new FailedResonpseBody(HttpStatus.UNAUTHORIZED);
+    private FailedResponseBody failedResponseBody = new FailedResponseBody(HttpStatus.UNAUTHORIZED);
 
     @Autowired
     private QueryService queryService;
@@ -44,7 +44,7 @@ public class QueryController {
             return ResponseEntity.ok(ids);
         } catch (Exception e) {
             e.printStackTrace(); // Log the error
-            return ResponseEntity.internalServerError().body(null);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(failedResponseBody);
         }
     }
 }

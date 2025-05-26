@@ -1,12 +1,14 @@
 package com.example.demo.controller;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entity.Cookies;
 import com.example.demo.entity.Post;
 import com.example.demo.entity.User;
+import org.springframework.http.ResponseEntity;
+import com.example.demo.model.FailedResponseBody;
 import com.example.demo.model.PostBody;
+import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.PostService;
 
@@ -35,17 +40,42 @@ public class PostController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PostRepository postRepository;
+
     @GetMapping
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
 
+    private FailedResponseBody failedResponseBody = new FailedResponseBody(HttpStatus.NOT_FOUND);
+
+    @GetMapping("/{username}")
+    // ResponseEntity<List<Post>>
+    public ResponseEntity<Object> getUserPosts(@PathVariable String username) {
+
+        try {
+            User user = userRepository.findByUsername(username);
+            UUID author = user.getId();
+
+            List<Post> posts = postRepository.findByAuthor(author);
+
+            // System.out.println(posts);
+            return ResponseEntity.ok(posts);
+
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the error
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(failedResponseBody);
+        }
+    }
+
     @PutMapping
-    public ResponseEntity<?> createPost(HttpServletRequest request, @RequestBody Post post, HttpServletResponse response) {
+    public ResponseEntity<?> createPost(HttpServletRequest request, @RequestBody Post post,
+            HttpServletResponse response) {
 
         // check cookie
         String cookieUser = cookieEntity.getCookiesUser(request);
-        if (cookieUser == "undefined"){
+        if (cookieUser == "undefined") {
             return ResponseEntity.ok().body("Cookie user is undefined");
         }
 

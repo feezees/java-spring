@@ -2,7 +2,7 @@ package com.example.demo.interceptor;
 
 import com.example.demo.annotation.RequireCookie;
 import com.example.demo.entity.Cookies;
-import com.example.demo.model.FailedResonpseBody;
+import com.example.demo.model.FailedResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class CookieInterceptor implements HandlerInterceptor {
     private final Cookies cookies = new Cookies();
-    private final FailedResonpseBody failedResponseBody = new FailedResonpseBody(HttpStatus.UNAUTHORIZED);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

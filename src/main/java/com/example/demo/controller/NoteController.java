@@ -42,14 +42,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
     @GetMapping("/{id}")
     // public ResponseEntity<Note> todo грязь
-    public ResponseEntity<Object> getNoteById(@PathVariable Long id, HttpServletRequest req, HttpServletResponse res) {
-        Optional<Note> resBody = noteService.getNoteById(id);
+    public ResponseEntity<Note> getNoteById(@PathVariable Long id, HttpServletRequest req, HttpServletResponse res) {
+        Optional<Note> optionalNote = noteService.getNoteById(id);
 
-        if (resBody == null) {
+        if (optionalNote.isPresent()) {
+            return ResponseEntity.ok(optionalNote.get());
+        } else {
             return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.status(HttpStatus.OK).body(resBody);
     }
 
     @GetMapping("/user/{userId}")

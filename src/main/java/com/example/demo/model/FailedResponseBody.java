@@ -2,14 +2,14 @@ package com.example.demo.model;
 
 import org.springframework.http.HttpStatus;
 
-public class FailedResonpseBody {
+public class FailedResponseBody {
     public HttpStatus errorText;
 
-    public FailedResonpseBody(HttpStatus errorText){
+    public FailedResponseBody(HttpStatus errorText){
         this.errorText = errorText;
     }
 
-    public FailedResonpseBody(){
+    public FailedResponseBody(){
 
     }
 }

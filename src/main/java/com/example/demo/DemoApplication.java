@@ -3,7 +3,6 @@ package com.example.demo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.boot.SpringApplication;
@@ -45,6 +44,7 @@ public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
 
-        baz();
+        System.out.println("################# success #################");
+        // baz();
     }
 }

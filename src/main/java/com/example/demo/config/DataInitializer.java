@@ -43,14 +43,18 @@ public class DataInitializer implements CommandLineRunner {
         try {
             // Create notes table if it doesn't exist
             // entityManager.createNativeQuery(
-            //     "CREATE TABLE IF NOT EXISTS notes (id BIGINT AUTO_INCREMENT PRIMARY KEY, user_id VARCHAR(36) NOT NULL, note_value VARCHAR(255) NOT NULL)"
+            // "CREATE TABLE IF NOT EXISTS notes (id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            // user_id VARCHAR(36) NOT NULL, note_value VARCHAR(255) NOT NULL)"
             // ).executeUpdate();
 
             User user1 = new User("admin", "admin");
             User user2 = new User("moderator", "moderator");
             User user3 = new User("user", "user");
 
-            userRepository.saveAll(Arrays.asList(user1, user2, user3));
+            // Save users individually to ensure IDs are generated and available
+            user1 = userRepository.save(user1);
+            user2 = userRepository.save(user2);
+            user3 = userRepository.save(user3);
 
             Note note1 = new Note(user1.getId(), "Первая заметка пользователя 1");
             // Note note2 = new Note(user1.getId(), "Вторая заметка пользователя 1");
@@ -61,16 +65,21 @@ public class DataInitializer implements CommandLineRunner {
             noteRepository.saveAll(Arrays.asList(note1));
 
             PostBody pb1 = new PostBody("text", "lorem1");
-            PostBody pb2 = new PostBody("image", "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png");
+            PostBody pb2 = new PostBody("image",
+                    "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png");
             PostBody pb3 = new PostBody("text", "lorem2");
 
-            Post post1 = new Post( user1.getId() , List.of(pb1, pb2, pb3));
-            Post post2 = new Post( user2.getId() , List.of(pb3, pb2, pb1));
+            // Use the IDs from the saved user objects
+            Post post1 = new Post(user1.getId(), List.of(pb1, pb2, pb3));
+            Post post2 = new Post(user2.getId(), List.of(pb3, pb2, pb1));
+
+            System.out.println(user1.getId());
+
+            // System.out.println(pb1.);
 
             postRepository.saveAll(Arrays.asList(post1, post2));
 
-            // UUID.randomUUID()
-
+            // UUID.randomUUID();
             // noteRepository.saveAll(Arrays.asList(note1, note2, note3, note4, note5));
 
             System.out.println("Sample data initialized successfully!");
