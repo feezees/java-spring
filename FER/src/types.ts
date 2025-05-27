@@ -18,3 +18,5 @@ export interface PostDto {
     author: string;
     postBody: PostBodyItem[];
 }
+
+export type UserRoles = 'admin' | 'moderator' | 'user';

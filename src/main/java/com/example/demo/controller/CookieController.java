@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,10 +30,18 @@ public class CookieController {
 
     public Cookies cookieEntity = new Cookies();
 
-    @PutMapping("/admin")
-    public String setAdminCookie(HttpServletRequest request, HttpServletResponse response) {
-        cookieEntity.setCookieUser(response, "admin");
-        return "admin cookie added";
+    @PutMapping
+    public String setAdminCookie(@RequestParam("role") String role, HttpServletResponse response) {
+        System.out.println("################ role ########");
+        System.out.println(role);
+
+        if (role.equals("admin") || role.equals("user") || role.equals("moderator")) {
+            cookieEntity.setCookieUser(response, role);
+            return role + " cookie added";
+        }
+
+        return "set cookie failed";
+
     }
 
     @DeleteMapping
@@ -45,8 +54,8 @@ public class CookieController {
     public ResponseEntity<String> checkCookie(HttpServletRequest request) {
         String cookieUser = cookieEntity.getCookiesUser(request);
 
-        if (cookieUser == "undefined"){
-            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user cookie not found");
+        if (cookieUser == "undefined") {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user cookie not found");
         }
 
         return ResponseEntity.ok().body(cookieUser);

@@ -7,31 +7,13 @@ import { Button } from './ui/Button';
 import { Header } from './ui/Header';
 import { Layout } from './ui/Layout';
 import { Users } from './users/Index';
+import { useAuth } from './hooks/login';
+import { Flex } from './ui/Flex';
+import { UserRoles } from './types';
 // import './App.css';
 
 function App() {
-  const [authLoading, setAuthloading] = useState<boolean>(true);
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
-
-  const handleLoginAsAdmin = () => {
-    axios({
-      method: 'PUT',
-      url: 'http://localhost:8080/api/cookie/admin',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'text/plain',
-      },
-    })
-      .then(response => {
-        setAuthloading(false);
-        setLoggedIn(true);
-        console.log(response.data);
-      })
-      .catch(error => {
-        setAuthloading(false);
-        console.error('Ошибка:', error.response ? error.response.data : error.message);
-      });
-  }
+  const { handleLoginAs, authLoading, setAuthloading, loggedIn, setLoggedIn } = useAuth();
 
   const handleCheckAuth = () => {
     axios({
@@ -93,10 +75,10 @@ function App() {
   }
 
   if (!loggedIn) {
-    return <Layout>
-      <Header>
-        <Button text='log in as admin' onClick={handleLoginAsAdmin} />
-      </Header>
+    return <Layout centred>
+      <Flex direction='col' gap='lg'>
+        {(['admin', 'moderator', 'user'] as UserRoles[]).map(el => <Button text={'log in as ' + el } onClick={handleLoginAs(el)} />)}
+      </Flex>
     </Layout>
   }
 
