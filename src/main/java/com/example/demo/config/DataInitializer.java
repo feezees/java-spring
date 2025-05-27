@@ -41,9 +41,9 @@ public class DataInitializer implements CommandLineRunner {
     @Transactional
     public void run(String... args) {
         try {
-            User user1 = new User("admin", "admin");
-            User user2 = new User("moderator", "moderator");
-            User user3 = new User("user", "user");
+            User user1 = new User("admin", "admin", "admin");
+            User user2 = new User("moderator", "moderator", "moderator");
+            User user3 = new User("user", "user", "user");
 
             // Save users individually to ensure IDs are generated and available
             user1 = userRepository.save(user1);

@@ -17,12 +17,16 @@ public class User {
     @Column(nullable = false)
     private String role;
 
+    @Column(nullable = false)
+    private String password;
+
     public User() {
     }
 
-    public User(String username, String role) {
+    public User(String username, String role, String password) {
         this.username = username;
         this.role = role;
+        this.password = password;
         this.id = UUID.randomUUID();
     }
 

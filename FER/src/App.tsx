@@ -91,8 +91,8 @@ function App() {
 
       <div>
         <Button onClick={() => setRoute('notes')} text='notes' />
-        <Button onClick={() => setRoute('posts')} text='posts' />
-        <Button onClick={() => setRoute('tenders')} text='tenders' />
+        {/* <Button onClick={() => setRoute('posts')} text='posts' /> */}
+        {/* <Button onClick={() => setRoute('tenders')} text='tenders' /> */}
         <Button onClick={() => setRoute('users')} text='users' />
       </div>
 

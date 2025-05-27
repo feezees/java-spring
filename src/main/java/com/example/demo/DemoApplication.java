@@ -1,37 +1,14 @@
 package com.example.demo;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.Arrays;
-import java.util.UUID;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.io.IOException;
 
 @SpringBootApplication
 public class DemoApplication {
-
-    public static void baz() {
-        // List<String> ls = List.of("A", "B", "C");
-        // Post xd = new Post(52L, ls);
-        // List<String> ww = xd.getPostData();
-        // System.out.println(ww);
-
-        UUID xd = UUID.randomUUID();
-        System.out.println(xd);
-
-    }
-
-    public static void bar() {
-        int[] arr = { 1, 2, 3, 4, 5 };
-        // filter even numbers
-        int[] evenNumbers = Arrays.stream(arr)
-                .filter(n -> n % 2 == 0)
-                .toArray();
-
-        System.out.println(Arrays.toString(evenNumbers));
-    }
-
     public static <T> void logCounterResponse(T value) {
         try {
             String jsonString = new ObjectMapper().writeValueAsString(value);
@@ -41,10 +18,32 @@ public class DemoApplication {
         }
     }
 
+    private static void readAndPrintDataJson() {
+        Path filePath = Path.of("src/main/resources/json/data.json");
+        try {
+            String content = Files.readString(filePath);
+            ObjectMapper objectMapper = new ObjectMapper();
+            // Assuming the JSON is an array of objects like [{"name": "...", ...}, {"name": "...", ...}]
+            java.util.List<java.util.Map<String, Object>> data = objectMapper.readValue(content, new com.fasterxml.jackson.core.type.TypeReference<java.util.List<java.util.Map<String, Object>>>() {});
+
+            System.out.println("Names from data.json:");
+            for (java.util.Map<String, Object> item : data) {
+                if (item.containsKey("name")) {
+                    System.out.println(item.get("name"));
+                }
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error reading or processing data.json: " + e.getMessage());
+        }
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
 
         System.out.println("################# success #################");
-        // baz();
+
+        readAndPrintDataJson();
     }
+
 }
