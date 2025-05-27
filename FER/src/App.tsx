@@ -64,7 +64,10 @@ function App() {
     handleCheckAuth();
   }, []);
 
-  const [route, setRoute] = useState<'notes' | 'posts' | 'tenders' | 'users'>('users');
+  const [route, setRoute] = useState<'notes' | 'posts' | 'tenders' | 'users' | ''>('users');
+
+  const [showProfile, setShowProfile] = useState<boolean>(false);
+  const toggleShowProfile = () => setShowProfile(prev => !prev);
 
   if (authLoading) {
     return <Layout>
@@ -77,7 +80,7 @@ function App() {
   if (!loggedIn) {
     return <Layout centred>
       <Flex direction='col' gap='lg'>
-        {(['admin', 'moderator', 'user'] as UserRoles[]).map(el => <Button text={'log in as ' + el } onClick={handleLoginAs(el)} />)}
+        {(['admin', 'moderator', 'user'] as UserRoles[]).map(el => <Button text={'log in as ' + el} onClick={handleLoginAs(el)} />)}
       </Flex>
     </Layout>
   }
@@ -85,16 +88,23 @@ function App() {
   return (
     <Layout>
       <Header>
-        <Button onClick={handleCheckAuth} text='check cookie' />
-        <Button onClick={handleLogout} text='logout' />
+        <Button onClick={() => setRoute('')} text='home' />
+
+        <div className='relative'>
+          {showProfile && <div className='absolute right-0 top-12 bg-slate-800 p-4 w-86 mt-[8px] shadow-xl bg-cyan-500 shadow-cyan-500/50  rounded-md'>profile</div>}
+          <Flex gap='md'>
+            <Button onClick={toggleShowProfile} text='profile' />
+            <Button onClick={handleLogout} text='logout' />
+          </Flex>
+        </div>
       </Header>
 
-      <div>
+      <Flex gap='md'>
         <Button onClick={() => setRoute('notes')} text='notes' />
         {/* <Button onClick={() => setRoute('posts')} text='posts' /> */}
         {/* <Button onClick={() => setRoute('tenders')} text='tenders' /> */}
         <Button onClick={() => setRoute('users')} text='users' />
-      </div>
+      </Flex>
 
       {route === 'notes' && <Notes logout={logout} />}
       {route === 'posts' && <Posts logout={logout} />}
