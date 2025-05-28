@@ -3,9 +3,14 @@ import { FC, useEffect, useState } from "react";
 import { PostDto } from "../types";
 import { Button } from "../ui/Button";
 import { Post } from "../posts/Post";
+import { Flex } from "../ui/Flex";
+import { Text } from "../ui/Text";
+import { Divider } from "../ui/Divider";
 
 export const Users: FC = () => {
     const [users, setUsers] = useState<string[] | undefined>();
+    const [selectedUser, setSelectedUser] = useState<string | undefined>();
+
 
     const bar = () => {
         axios({
@@ -30,6 +35,7 @@ export const Users: FC = () => {
 
     const getPosts = (userId: string) => {
         setPosts(undefined);
+        setSelectedUser(userId);
 
         axios({
             method: 'GET',
@@ -54,13 +60,35 @@ export const Users: FC = () => {
 
     return (
         <>
-            <div className='flex gap-2 my-4'>
-                {users?.map(el => <Button text={el} onClick={() => getPosts(el)} />)}
-            </div >
+            <div className="mt-4 ">
+                {
+                    selectedUser && <>
+                        <Flex justify="between">
+                            <Flex direction="col" justify="center">
+                                <Button text="back" onClick={() => {
+                                    setSelectedUser(undefined);
+                                    setPosts(undefined);
+                                }} />
+                            </Flex>
+
+                            <Flex gap="md">
+                                <Text paddingY="4" color="slate-400" text={'POST(s) By '} fontSize="lg" />
+                                <Text paddingY="4" color="slate-200" text={' ' + selectedUser} fontSize="lg" />
+                            </Flex>
+                        </Flex>
+                    </>
+                }
+
+                {!selectedUser &&
+                    <Flex gap="md" direction="col">
+                        {users?.map(el => <Button text={el} onClick={() => getPosts(el)} />)}
+                    </Flex>
+                }
+            </div>
 
             <>
-                {posts && posts.length && posts.map(post => <Post post={post} /> )}
-                {posts && posts.length === 0 && <p>no posts found</p>}
+                {posts && posts.length > 0 && posts.map(post => <Post post={post} />)}
+                {(posts && posts.length === 0) && <Flex justify="between"><div></div><Text text="no posts found" fontSize="sm" /></Flex>}
             </>
         </>
     )

@@ -10,6 +10,8 @@ import { Users } from './users/Index';
 import { useAuth } from './hooks/login';
 import { Flex } from './ui/Flex';
 import { UserRoles } from './types';
+import { Text } from './ui/Text';
+import { Divider } from './ui/Divider';
 // import './App.css';
 
 function App() {
@@ -105,6 +107,9 @@ function App() {
         {/* <Button onClick={() => setRoute('tenders')} text='tenders' /> */}
         <Button onClick={() => setRoute('users')} text='users' />
       </Flex>
+
+
+      {route && <Divider />}
 
       {route === 'notes' && <Notes logout={logout} />}
       {route === 'posts' && <Posts logout={logout} />}

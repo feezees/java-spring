@@ -1,0 +1,1 @@
+export const Divider = () => <div className="mt-4 mb-4 border-b-4 border-slate-800"></div>

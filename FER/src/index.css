@@ -1,1 +1,80 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Sedan:ital@0;1&display=swap");
+
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Класс для шрифта Montserrat */
+.montserrat {
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Класс для шрифта Open Sans */
+.opensans {
+  font-family: "Open Sans", sans-serif;
+}
+
+/* Класс для шрифта Roboto */
+.roboto {
+  font-family: "Roboto", sans-serif;
+}
+
+/* Класс для шрифта Sedan */
+.sedan {
+  font-family: "Sedan", serif;
+}
+
+/* Стили для демонстрации разных весов и начертаний */
+.light {
+  /* Light (вес 300) */
+  font-weight: 300;
+}
+.regular {
+  /* Regular (вес 400) */
+  font-weight: normal;
+}
+.medium {
+  /* Medium (вес 500) */
+  font-weight: 500;
+}
+.bold {
+  /* Bold (вес 700) */
+  font-weight: bold;
+}
+.extraBold {
+  /* Extra Bold (вес 900) */
+  font-weight: 900;
+}
+
+/* Классы для курсивного начертания */
+.italic {
+  font-style: italic;
+}
+.notItalic {
+  font-style: normal;
+}
+
+/* Примеры использования классов */
+.exampleText {
+  color: black;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.testTitle {
+  font-size: 24px;
+  margin-bottom: 1rem;
+}
+
+.subheading {
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.paragraph {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
