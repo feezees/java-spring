@@ -17,6 +17,20 @@ public class CounterService {
     }
 
     @Transactional
+    public Long setCounterValue(String username, Long counerValue) {
+        if (!userRepository.existsByUsername(username)) {
+            return -1L; // User not found
+        }
+
+        UserCounter counter = counterRepository.findById(username)
+                .orElse(new UserCounter(username));
+
+        counter.setCounterValue(counerValue);
+
+        return counter.getCounterValue();
+    }
+
+    @Transactional
     public Long incrementCounter(String username) {
         if (!userRepository.existsByUsername(username)) {
             return -1L; // User not found
@@ -24,10 +38,10 @@ public class CounterService {
 
         UserCounter counter = counterRepository.findById(username)
                 .orElse(new UserCounter(username));
-        
+
         counter.setCounterValue(counter.getCounterValue() + 1);
         counterRepository.save(counter);
-        
+
         return counter.getCounterValue();
     }
-} 
+}

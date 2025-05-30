@@ -9,6 +9,7 @@ import { Header } from "../ui/Header"
 import { Layout } from "../ui/Layout"
 import { Users } from "../users/Index"
 import { Profile } from "./Profile"
+import { Counter } from "./Counter"
 
 interface IndexProps {
     showProfile: boolean,
@@ -41,6 +42,7 @@ export const Index: FC<IndexProps> = ({ showProfile, setRoute, toggleShowProfile
 
             <Divider />
 
+            {route === '' && <Counter />}
             {route === 'notes' && <Notes logout={logout} />}
             {route === 'posts' && <Posts logout={logout} />}
             {route === 'tenders' && <Tenders logout={logout} />}
