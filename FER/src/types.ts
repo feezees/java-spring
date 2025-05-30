@@ -20,3 +20,5 @@ export interface PostDto {
 }
 
 export type UserRoles = 'admin' | 'moderator' | 'user';
+
+export type Routes = 'notes' | 'posts' | 'tenders' | 'users' | '';
