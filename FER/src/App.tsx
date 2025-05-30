@@ -1,28 +1,26 @@
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { useAuth } from './hooks/login';
+import { useProfile } from './hooks/useProfile';
+import { useRoute } from './hooks/useRoute';
 import { Index } from './root/Index';
 import { Loading } from './root/Loading';
 import { Login } from './root/Login';
-import { Routes } from './types';
 
 function App() {
   const { handleLoginAs, authLoading, loggedIn, logout, handleLogout, handleCheckAuth } = useAuth();
+  const { route, setRoute } = useRoute();
+  const { showProfile, toggleShowProfile } = useProfile();
 
   useLayoutEffect(() => {
     handleCheckAuth();
   }, [handleCheckAuth]);
 
-  const [route, setRoute] = useState<Routes>('users');
-
-  const [showProfile, setShowProfile] = useState<boolean>(false);
-  const toggleShowProfile = () => setShowProfile(prev => !prev);
-
   if (authLoading) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (!loggedIn) {
-    return <Login handleLoginAs={handleLoginAs} />
+    return <Login handleLoginAs={handleLoginAs} />;
   }
 
   return (
