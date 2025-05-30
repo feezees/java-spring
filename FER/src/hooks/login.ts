@@ -1,72 +1,44 @@
-import axios from "axios";
 import { useState } from "react";
 import { UserRoles } from "../types";
+import { saxios } from "../api/axios";
 
 export const useAuth = () => {
     const [authLoading, setAuthloading] = useState<boolean>(true);
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
-    const handleLoginAs = (role: UserRoles) => () => {
-        axios({
-            method: 'PUT',
-            url: 'http://localhost:8080/api/cookie?role=' + role,
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'text/plain',
-            },
-        })
-            .then(response => {
-                setAuthloading(false);
-                setLoggedIn(true);
-                console.log(response.data);
-            })
-            .catch(error => {
-                setAuthloading(false);
-                console.error('Ошибка:', error.response ? error.response.data : error.message);
-            });
+    const handleLoginAs = (role: UserRoles) => async () => {
+        try {
+            await saxios.put(`/cookie?role=${role}`);
+            setAuthloading(false);
+            setLoggedIn(true);
+        } catch (error) {
+            setAuthloading(false);
+            console.error('Ошибка:', error);
+        }
     }
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         setAuthloading(true);
-
-        axios({
-            method: 'DELETE',
-            url: 'http://localhost:8080/api/cookie',
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'text/plain',
-            },
-        })
-            .then(response => {
-                setAuthloading(false);
-                setLoggedIn(false);
-                console.log(response.data);
-            })
-            .catch(error => {
-                setAuthloading(false);
-                setLoggedIn(false);
-                console.error('Ошибка:', error.response ? error.response.data : error.message);
-            });
+        try {
+            await saxios.delete('/cookie');
+            setAuthloading(false);
+            setLoggedIn(false);
+        } catch (error) {
+            setAuthloading(false);
+            setLoggedIn(false);
+            console.error('Ошибка:', error);
+        }
     }
 
-    const handleCheckAuth = () => {
-        axios({
-            method: 'GET',
-            url: 'http://localhost:8080/api/cookie/check',
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'text/plain',
-            },
-        })
-            .then(response => {
-                setAuthloading(false);
-                setLoggedIn(true);
-                console.log(response.data);
-            })
-            .catch(error => {
-                setAuthloading(false);
-                console.error('Ошибка:', error.response ? error.response.data : error.message);
-            });
+    const handleCheckAuth = async () => {
+        try {
+            await saxios.get('/cookie/check');
+            setAuthloading(false);
+            setLoggedIn(true);
+        } catch (error) {
+            setAuthloading(false);
+            console.error('Ошибка:', error);
+        }
     }
 
     const logout = () => setLoggedIn(false);

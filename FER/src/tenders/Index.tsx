@@ -1,7 +1,7 @@
-import axios from "axios";
 import { FC, useState } from "react";
 import { Button } from "../ui/Button";
 import { Tender } from "./Tender";
+import { saxios } from "../api/axios";
 
 interface TendersProps {
     logout: () => void;
@@ -11,15 +11,8 @@ export const Tenders: FC<TendersProps> = ({ logout }) => {
     const [tenders, setTenders] = useState<string[]>();
 
     const handleGetTenders = () => {
-        axios({
-            method: 'GET',
-            url: `http://localhost:8080/api/tenders`,
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'text/plain',
-            },
-        })
-            .then(response => {
+        saxios.get(`/api/tenders`)
+            .then((response: any) => {
                 console.log(response.data);
                 setTenders(response.data as string[]);
             })

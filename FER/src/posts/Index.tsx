@@ -1,8 +1,8 @@
 import React, { FC, useState } from "react";
 import { Button } from "../ui/Button";
-import axios from "axios";
 import { PostDto } from "../types";
 import { Post } from "./Post";
+import { saxios } from "../api/axios";
 
 interface PostsProps {
     logout: () => void;
@@ -12,15 +12,8 @@ export const Posts: FC<PostsProps> = ({ logout }) => {
     const [posts, setPosts] = useState<PostDto[]>();
 
     const handleGetPosts = () => {
-        axios({
-            method: 'GET',
-            url: `http://localhost:8080/api/posts`,
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'text/plain',
-            },
-        })
-            .then(response => {
+        saxios.get(`/api/posts`)
+            .then((response: any) => {
                 console.log(response.data);
                 setPosts(response.data as PostDto[]);
             })

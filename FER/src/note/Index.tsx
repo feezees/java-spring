@@ -1,6 +1,6 @@
-import axios from "axios";
+import { FC, useState } from "react";
+import { saxios } from "../api/axios";
 import { NoteDto } from "../types";
-import React, { FC, useState } from "react";
 import { Button } from "../ui/Button";
 import { Note } from "./Note";
 
@@ -12,15 +12,8 @@ export const Notes: FC<NotesProps> = ({ logout }) => {
     const [notes, setNotes] = useState<NoteDto | NoteDto[] | undefined>();
 
     const handleGetNotesById = (id: string) => {
-        axios({
-            method: 'GET',
-            url: `http://localhost:8080/api/notes/${id}`,
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'text/plain',
-            },
-        })
-            .then(response => {
+        saxios.get(`/api/notes/${id}`)
+            .then((response: any) => {
                 console.log(response.data);
                 setNotes(response.data as NoteDto);
             })
@@ -31,15 +24,8 @@ export const Notes: FC<NotesProps> = ({ logout }) => {
     }
 
     const handleGetNotesByUserId = (userId: string) => {
-        axios({
-            method: 'GET',
-            url: `http://localhost:8080/api/notes/user/${userId}`,
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'text/plain',
-            },
-        })
-            .then(response => {
+        saxios.get(`/api/notes/user/${userId}`)
+            .then((response: any) => {
                 console.log(response.data);
                 setNotes(response.data as NoteDto[]);
             })
