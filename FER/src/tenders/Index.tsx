@@ -11,7 +11,7 @@ export const Tenders: FC<TendersProps> = ({ logout }) => {
     const [tenders, setTenders] = useState<string[]>();
 
     const handleGetTenders = () => {
-        saxios.get(`/api/tenders`)
+        saxios.get(`/tenders`)
             .then((response: any) => {
                 console.log(response.data);
                 setTenders(response.data as string[]);

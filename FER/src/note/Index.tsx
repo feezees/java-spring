@@ -12,7 +12,7 @@ export const Notes: FC<NotesProps> = ({ logout }) => {
     const [notes, setNotes] = useState<NoteDto | NoteDto[] | undefined>();
 
     const handleGetNotesById = (id: string) => {
-        saxios.get(`/api/notes/${id}`)
+        saxios.get(`/notes/${id}`)
             .then((response: any) => {
                 console.log(response.data);
                 setNotes(response.data as NoteDto);
@@ -24,7 +24,7 @@ export const Notes: FC<NotesProps> = ({ logout }) => {
     }
 
     const handleGetNotesByUserId = (userId: string) => {
-        saxios.get(`/api/notes/user/${userId}`)
+        saxios.get(`/notes/user/${userId}`)
             .then((response: any) => {
                 console.log(response.data);
                 setNotes(response.data as NoteDto[]);

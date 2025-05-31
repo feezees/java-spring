@@ -32,9 +32,10 @@ public class ToppingService {
                 }
             }
         }
+
         if (!toppingsToSave.isEmpty()) {
             toppingRepository.saveAll(toppingsToSave);
         }
         return updated;
     }
-} 
+}

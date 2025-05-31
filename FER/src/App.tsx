@@ -1,14 +1,14 @@
-import { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { useAuth } from './hooks/login';
 import { useProfile } from './hooks/useProfile';
-import { useRoute } from './hooks/useRoute';
 import { Index } from './root/Index';
 import { Loading } from './root/Loading';
 import { Login } from './root/Login';
+import { CounterProvider } from './root/CounterContext';
 
 function App() {
   const { handleLoginAs, authLoading, loggedIn, logout, handleLogout, handleCheckAuth } = useAuth();
-  const { route, setRoute } = useRoute();
   const { showProfile, toggleShowProfile } = useProfile();
 
   useLayoutEffect(() => {
@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     console.log(authLoading);
-  }, [authLoading])
+  }, [authLoading]);
 
   if (authLoading) {
     return <Loading />;
@@ -28,14 +28,18 @@ function App() {
   }
 
   return (
-    <Index
-      logout={logout}
-      handleLogout={handleLogout}
-      route={route}
-      setRoute={setRoute}
-      showProfile={showProfile}
-      toggleShowProfile={toggleShowProfile}
-    />
+    <React.StrictMode>
+      <BrowserRouter>
+        <CounterProvider>
+          <Index
+            logout={logout}
+            handleLogout={handleLogout}
+            showProfile={showProfile}
+            toggleShowProfile={toggleShowProfile}
+          />
+        </CounterProvider>
+      </BrowserRouter>
+    </React.StrictMode>
   );
 }
 

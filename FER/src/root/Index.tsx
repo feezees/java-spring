@@ -11,23 +11,28 @@ import { Users } from "../users/Index"
 import { Profile } from "./Profile"
 import { Counter } from "./Counter"
 import { Toppings } from '../toppings/Index';
-import { Routes } from "../types"
-
+import { Routes as AppRoutes } from "../types"
+import { useRoute } from "../hooks/useRoute";
+import { Route, Routes } from 'react-router-dom';
+import { Link } from "react-router-dom"
+import { Text } from "../ui/Text"
 
 interface IndexProps {
     showProfile: boolean,
     toggleShowProfile: () => void,
     handleLogout: () => void
-    route: Routes,
-    setRoute: (value: IndexProps['route']) => void,
     logout: () => void
 }
 
-export const Index: FC<IndexProps> = ({ showProfile, setRoute, toggleShowProfile, handleLogout, route, logout }) => {
+export const Index: FC<IndexProps> = ({ showProfile, toggleShowProfile, handleLogout, logout }) => {
+    const { setRoute } = useRoute();
+
     return (
         <Layout>
             <Header>
-                <Button onClick={() => setRoute('')} text='home' />
+                <Link to='' >
+                    <Button onClick={()=>{}} text='home' />
+                </Link>
 
                 <div className='relative'>
                     {showProfile && <Profile />}
@@ -39,21 +44,31 @@ export const Index: FC<IndexProps> = ({ showProfile, setRoute, toggleShowProfile
             </Header>
 
             <Flex gap='md'>
-                <Button onClick={() => setRoute('notes')} text='notes' />
-                <Button onClick={() => setRoute('users')} text='users' />
-                <Button onClick={() => setRoute('users')} text='users' />
-                <Button onClick={() => setRoute('toppings')} text='toppings' />
+                <Link to='/notes'>
+                    <Text text='notes' />
+                </Link>
 
+
+                <Link to='/users'>
+                    <Text text='users' />
+                </Link>
+
+
+                <Link to='/toppings'>
+                    <Text text='toppings' />
+                </Link>
             </Flex>
 
             <Divider />
 
-            {route === '' && <Counter />}
-            {route === 'notes' && <Notes logout={logout} />}
-            {route === 'posts' && <Posts logout={logout} />}
-            {route === 'tenders' && <Tenders logout={logout} />}
-            {route === 'users' && <Users />}
-            {route === 'toppings' && <Toppings />}
+            <Routes>
+                <Route path="/" element={<Counter />} />
+                <Route path="/notes" element={<Notes logout={logout} />} />
+                <Route path="/posts" element={<Posts logout={logout} />} />
+                <Route path="/tenders" element={<Tenders logout={logout} />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/toppings" element={<Toppings />} />
+            </Routes>
 
         </Layout >
     )

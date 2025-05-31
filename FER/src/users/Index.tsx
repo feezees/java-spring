@@ -11,10 +11,10 @@ export const Users: FC = () => {
     const [selectedUser, setSelectedUser] = useState<string | undefined>();
 
     const getUsers = () => {
-        saxios.get(`/api/users`)
+        saxios.get(`/users`)
             .then((response: any) => {
-                console.log(response.data);
-                setUsers(response.data);
+                console.log(response);
+                setUsers(response);
                 // setNotes(response.data);
             })
             .catch(error => {
@@ -28,10 +28,9 @@ export const Users: FC = () => {
         setPosts(undefined);
         setSelectedUser(userId);
 
-        saxios.get(`/api/posts/${userId}`)
+        saxios.get(`/posts/${userId}`)
             .then((response: any) => {
-                console.log(response.data);
-                setPosts(response.data);
+                setPosts(response);
             })
             .catch(error => {
                 console.error('Ошибка:', error.response ? error.response.data : error.message);

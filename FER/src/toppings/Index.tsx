@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { saxios } from "../api/axios"
 import { Topping } from "../types";
 import { Flex } from "../ui/Flex";
@@ -7,9 +7,15 @@ import { Divider } from "../ui/Divider";
 import { Text } from "../ui/Text";
 import { Button } from "../ui/Button";
 import React from "react";
+import { useCounter } from "../root/CounterContext";
 
 export const Toppings = () => {
     const [toppings, setToppings] = useState<'loading' | Topping[]>('loading');
+    const { handleCounter, counterValue, setCounterValue } = useCounter();
+
+    useLayoutEffect(() => {
+        handleCounter();
+    }, [])
 
     useEffect(() => {
         saxios.get('/toppings').then((res: any) => setToppings(res)).catch(() => { });
@@ -96,6 +102,21 @@ export const Toppings = () => {
         setCoffieToppings(c);
     }
 
+    const handleCheckout = async () => {
+        const updates = Object.keys(coffieToppings).map(id => ({
+            id: parseInt(id),
+            count: coffieToppings[id]
+        }));
+
+        try {
+            const response: any = await saxios.post('/toppings/quantity', updates);
+            if (response.data) {
+                saxios.get<string>('/counter').then((res: any) => setCounterValue(res)).catch(() => { });
+            }
+        } catch (error) {
+            console.error('Error during checkout:', error);
+        }
+    }
 
     return <Flex direction="col">
         {toppings === 'loading' && <Loading />}
@@ -106,7 +127,9 @@ export const Toppings = () => {
                     <Text text={totalPrice + ' 💸💰'} />
                 </Flex>
 
-                <Button text="checkout" onClick={() => { }} />
+                <Text text={'Balance : ' + counterValue + ' 💸💰'} />
+
+                <Button text="checkout" onClick={handleCheckout} />
             </Flex>
 
             {categoriesList.map((c) => <React.Fragment key={['topping', c].join('-')}>

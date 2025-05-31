@@ -12,10 +12,10 @@ export const Posts: FC<PostsProps> = ({ logout }) => {
     const [posts, setPosts] = useState<PostDto[]>();
 
     const handleGetPosts = () => {
-        saxios.get(`/api/posts`)
+        saxios.get(`/posts`)
             .then((response: any) => {
-                console.log(response.data);
-                setPosts(response.data as PostDto[]);
+                console.log(response);
+                setPosts(response as PostDto[]);
             })
             .catch(error => {
                 logout();
@@ -24,7 +24,7 @@ export const Posts: FC<PostsProps> = ({ logout }) => {
     }
     return <>
         <div className='flex gap-2 my-4'>
-            <Button onClick={handleGetPosts} text='handleGetNotesByUserId' />
+            <Button onClick={handleGetPosts} text='handleGetPosts' />
         </div>
         <div className="flex flex-col gap-2">
             {posts?.length && posts.map(post => <Post post={post} />)}

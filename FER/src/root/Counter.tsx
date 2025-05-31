@@ -1,14 +1,15 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect } from "react";
 import { Button } from "../ui/Button";
 import { saxios } from "../api/axios";
+import { useCounter } from "./CounterContext";
 
 export const Counter = () => {
-    const [counter, setCounter] = useState('');
+    const { counterValue, setCounterValue } = useCounter();
 
     const handleCounter = async () => {
         try {
             const data = await saxios.get<string>('/counter');
-            setCounter(data);
+            setCounterValue(data);
         } catch (error) {
             console.error('Ошибка:', error);
         }
@@ -19,6 +20,6 @@ export const Counter = () => {
     }, []);
 
     return <div>
-        <Button text={'💸💰 Counter:  ' + counter} onClick={handleCounter} />
+        <Button text={'💸💰 Counter:  ' + counterValue} onClick={handleCounter} />
     </div>
 }
