@@ -1,21 +1,18 @@
 import { FC } from "react"
+import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import { Notes } from "../note/Index"
 import { Posts } from "../posts/Index"
 import { Tenders } from "../tenders/Index"
+import { Toppings } from '../toppings/Index'
 import { Button } from "../ui/Button"
 import { Divider } from "../ui/Divider"
 import { Flex } from "../ui/Flex"
 import { Header } from "../ui/Header"
 import { Layout } from "../ui/Layout"
-import { Users } from "../users/Index"
-import { Profile } from "./Profile"
-import { Counter } from "./Counter"
-import { Toppings } from '../toppings/Index';
-import { Routes as AppRoutes } from "../types"
-import { useRoute } from "../hooks/useRoute";
-import { Route, Routes } from 'react-router-dom';
-import { Link } from "react-router-dom"
 import { Text } from "../ui/Text"
+import { Users } from "../users/Index"
+import { Counter } from "./Counter"
+import { Profile } from "./Profile"
 
 interface IndexProps {
     showProfile: boolean,
@@ -25,13 +22,13 @@ interface IndexProps {
 }
 
 export const Index: FC<IndexProps> = ({ showProfile, toggleShowProfile, handleLogout, logout }) => {
-    const { setRoute } = useRoute();
+    const { pathname } = useLocation();
 
     return (
         <Layout>
             <Header>
                 <Link to='' >
-                    <Button onClick={()=>{}} text='home' />
+                    <Button onClick={() => { }} text='home' />
                 </Link>
 
                 <div className='relative'>
@@ -44,19 +41,11 @@ export const Index: FC<IndexProps> = ({ showProfile, toggleShowProfile, handleLo
             </Header>
 
             <Flex gap='md'>
-                <Link to='/notes'>
-                    <Text text='notes' />
-                </Link>
-
-
-                <Link to='/users'>
-                    <Text text='users' />
-                </Link>
-
-
-                <Link to='/toppings'>
-                    <Text text='toppings' />
-                </Link>
+                {
+                    ['notes', 'users', 'toppings'].map(l => <Link to={'/' + l}>
+                        <Text text={l} additionalStyles={pathname === '/' + l ? "underline" : ''} />
+                    </Link>)
+                }
             </Flex>
 
             <Divider />
