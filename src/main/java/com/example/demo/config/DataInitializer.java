@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -11,11 +12,13 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.entity.Note;
 import com.example.demo.entity.Post;
+import com.example.demo.entity.Topping;
 // import com.example.demo.entity.Post;
 import com.example.demo.entity.User;
 import com.example.demo.model.PostBody;
 import com.example.demo.repository.NoteRepository;
 import com.example.demo.repository.PostRepository;
+import com.example.demo.repository.ToppingRepository;
 import com.example.demo.repository.UserRepository;
 
 import jakarta.persistence.EntityManager;
@@ -34,6 +37,9 @@ public class DataInitializer implements CommandLineRunner {
 
         @Autowired
         private PostRepository postRepository;
+
+        @Autowired
+        private ToppingRepository toppingRepository;
 
         @PersistenceContext
         private EntityManager entityManager;
@@ -171,6 +177,51 @@ public class DataInitializer implements CommandLineRunner {
                         List<Post> aiPosts = Arrays.asList(post5, post6, post7, post8, post9, post10);
 
                         postRepository.saveAll(aiPosts);
+
+                        // toppings
+                        Topping tropicalPulp = new Topping(
+                                        "Тропическое пюре с маракуйей и кокосом",
+                                        new BigDecimal("15.99"),
+                                        100,
+                                        Topping.Category.ADDITIONALS);
+
+                        // Создаем топинги
+                        Topping vanillaMilk = new Topping("Молоко со вкусом ванили", new BigDecimal("12.99"), 50,
+                                        Topping.Category.LIQUIDS);
+                        Topping almondMilk = new Topping("Органическое миндальное молоко", new BigDecimal("10.99"), 75,
+                                        Topping.Category.LIQUIDS);
+                        Topping coconutChocolateMilk = new Topping("Шоколадное кокосовое молоко",
+                                        new BigDecimal("14.99"), 40, Topping.Category.LIQUIDS);
+                        Topping oatsCinnamonMilk = new Topping("Овсяное молоко с корицей", new BigDecimal("9.99"), 60,
+                                        Topping.Category.LIQUIDS);
+                        Topping orangeJuice = new Topping("Свежевыжатый апельсиновый сок", new BigDecimal("8.99"), 80,
+                                        Topping.Category.LIQUIDS);
+                        Topping skimMilk = new Topping("Натуральное обезжиренное молоко", new BigDecimal("7.99"), 90,
+                                        Topping.Category.LIQUIDS);
+                        Topping strawberryPuree = new Topping("Клубничное пюре", new BigDecimal("11.99"), 30,
+                                        Topping.Category.FRUITS);
+                        Topping mangoChunks = new Topping("Кусочки свежего манго", new BigDecimal("13.99"), 25,
+                                        Topping.Category.FRUITS);
+                        Topping berryMix = new Topping("Микс лесных ягод", new BigDecimal("15.99"), 20,
+                                        Topping.Category.FRUITS);
+                        Topping granolaNutsSeeds = new Topping("Хрустящий гранола с орехами и семенами подсолнечника",
+                                        new BigDecimal("18.99"), 15, Topping.Category.ADDITIONALS);
+
+                        List<Topping> allToppings = Arrays.asList(
+                                        vanillaMilk,
+                                        almondMilk,
+                                        coconutChocolateMilk,
+                                        oatsCinnamonMilk,
+                                        orangeJuice,
+                                        skimMilk,
+                                        strawberryPuree,
+                                        mangoChunks,
+                                        berryMix,
+                                        granolaNutsSeeds,
+                                        tropicalPulp // добавляем сюда новый топинг
+                        );
+
+                        toppingRepository.saveAll(allToppings);
 
                         System.out.println("Sample data initialized successfully!");
                 } catch (Exception e) {

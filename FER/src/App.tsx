@@ -1,4 +1,4 @@
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useAuth } from './hooks/login';
 import { useProfile } from './hooks/useProfile';
 import { useRoute } from './hooks/useRoute';
@@ -14,6 +14,10 @@ function App() {
   useLayoutEffect(() => {
     handleCheckAuth();
   }, [handleCheckAuth]);
+
+  useEffect(() => {
+    console.log(authLoading);
+  }, [authLoading])
 
   if (authLoading) {
     return <Loading />;

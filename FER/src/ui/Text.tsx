@@ -7,7 +7,7 @@ interface TextProps {
     paddingX?: paddingSizes;
     paddingY?: paddingSizes;
     fontSize?: 'sm' | 'md' | 'lg'
-    color?: 'slate-200' | 'slate-400'
+    color?: 'slate-200' | 'slate-400' | 'slate-600'
 }
 
 export const Text: FC<TextProps> = ({ text, fontSize, paddingX, paddingY, color }) => {

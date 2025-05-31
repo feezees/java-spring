@@ -21,4 +21,18 @@ export interface PostDto {
 
 export type UserRoles = 'admin' | 'moderator' | 'user';
 
-export type Routes = 'notes' | 'posts' | 'tenders' | 'users' | '';
+export type Routes = 'toppings' | 'notes' | 'posts' | 'tenders' | 'users' | '';
+
+export enum Category {
+    FRUITS = 'FRUITS',
+    LIQUIDS = 'LIQUIDS',
+    ADDITIONALS = 'ADDITIONALS'
+}
+
+export interface Topping {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    category: Category;
+}

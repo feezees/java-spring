@@ -1,16 +1,14 @@
 import { FC, useEffect, useState } from "react";
+import { saxios } from "../api/axios";
+import { Post } from "../posts/Post";
 import { PostDto } from "../types";
 import { Button } from "../ui/Button";
-import { Post } from "../posts/Post";
 import { Flex } from "../ui/Flex";
 import { Text } from "../ui/Text";
-import { Divider } from "../ui/Divider";
-import { saxios } from "../api/axios";
 
 export const Users: FC = () => {
     const [users, setUsers] = useState<string[] | undefined>();
     const [selectedUser, setSelectedUser] = useState<string | undefined>();
-
 
     const getUsers = () => {
         saxios.get(`/api/users`)

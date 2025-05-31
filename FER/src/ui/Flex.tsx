@@ -6,13 +6,15 @@ interface FlexProps {
     direction?: 'col' | '';
     gap?: 'sm' | 'md' | 'lg';
     justify?: 'around' | 'between' | 'center'
+    align?: 'center'
 }
 
-export const Flex: FC<FlexProps> = ({ children, direction, gap, justify }) => {
+export const Flex: FC<FlexProps> = ({ children, direction, gap, justify, align }) => {
     const sDirection = direction === 'col' ? 'flex flex-col' : 'flex';
     const sGap = gap ? gap === 'lg' ? 'gap-[16px]' : gap === 'md' ? 'gap-[8px]' : gap === 'sm' ? 'gap-[4px]' : '' : '';
     const sJustify = justify ? ('justify-' + justify) : '';
-    const sStyle = [sDirection, sGap, sJustify].join(' ');
+    const sAlign = align ? ('align-' + align) : '';
+    const sStyle = [sDirection, sGap, sJustify, sAlign ].join(' ');
 
     return (
         <div className={sStyle}>{children}</div>

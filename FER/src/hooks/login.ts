@@ -7,6 +7,8 @@ export const useAuth = () => {
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
     const handleLoginAs = (role: UserRoles) => async () => {
+        setAuthloading(true);
+
         try {
             await saxios.put(`/cookie?role=${role}`);
             setAuthloading(false);
@@ -19,6 +21,7 @@ export const useAuth = () => {
 
     const handleLogout = async () => {
         setAuthloading(true);
+        
         try {
             await saxios.delete('/cookie');
             setAuthloading(false);

@@ -2,10 +2,13 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.example.demo.entity.Topping;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -23,8 +26,11 @@ public class DemoApplication {
         try {
             String content = Files.readString(filePath);
             ObjectMapper objectMapper = new ObjectMapper();
-            // Assuming the JSON is an array of objects like [{"name": "...", ...}, {"name": "...", ...}]
-            java.util.List<java.util.Map<String, Object>> data = objectMapper.readValue(content, new com.fasterxml.jackson.core.type.TypeReference<java.util.List<java.util.Map<String, Object>>>() {});
+            // Assuming the JSON is an array of objects like [{"name": "...", ...}, {"name":
+            // "...", ...}]
+            java.util.List<java.util.Map<String, Object>> data = objectMapper.readValue(content,
+                    new com.fasterxml.jackson.core.type.TypeReference<java.util.List<java.util.Map<String, Object>>>() {
+                    });
 
             System.out.println("Names from data.json:");
             for (java.util.Map<String, Object> item : data) {
@@ -44,6 +50,7 @@ public class DemoApplication {
         System.out.println("################# success #################");
 
         readAndPrintDataJson();
+
     }
 
 }
