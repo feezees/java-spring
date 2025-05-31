@@ -103,9 +103,19 @@ export const Toppings = () => {
     }
 
     const handleCheckout = async () => {
-        const updates = Object.keys(coffieToppings).map(id => ({
+        let c = new Map();
+
+        Object.entries(coffieToppings).map(([k, v]: [k: string, v: number]) => {
+            if (v > 0) {
+                c.set(k, v);
+            };
+        })
+
+        let notNullCoffieToppings = Object.fromEntries(c.entries());
+
+        const updates = Object.keys(notNullCoffieToppings).map(id => ({
             id: parseInt(id),
-            count: coffieToppings[id]
+            count: notNullCoffieToppings[id]
         }));
 
         try {

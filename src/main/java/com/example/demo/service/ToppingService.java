@@ -26,7 +26,7 @@ public class ToppingService {
             if (existingTopping.isPresent()) {
                 Topping topping = existingTopping.get();
                 if (topping.getQuantity() >= update.getCount()) {
-                    topping.setQuantity(update.getCount());
+                    topping.setQuantity(topping.getQuantity() - update.getCount());
                     toppingsToSave.add(topping);
                     updated = true;
                 }

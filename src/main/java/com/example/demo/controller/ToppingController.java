@@ -40,6 +40,13 @@ public class ToppingController {
     @PostMapping("/quantity")
     public ResponseEntity<Boolean> setToppings(@RequestBody List<ToppingUpdateRequest> updates) {
         boolean updated = toppingService.setToppings(updates);
-        return ResponseEntity.ok(updated);
+
+        System.out.println(updated);
+
+        if (updated) {
+            return ResponseEntity.ok(updated);
+        }
+
+        return ResponseEntity.badRequest().body(false);
     }
 }
