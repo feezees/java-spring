@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.annotation.RequireCookie;
 import com.example.demo.dto.NoteRequest;
 import com.example.demo.entity.Note;
+import com.example.demo.entity.User;
 import com.example.demo.service.NoteService;
+import com.example.demo.service.CookieService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,8 +34,16 @@ import jakarta.servlet.http.HttpServletResponse;
         @RequireCookie
         public class NoteController {
 
+    private final NoteService noteService;
+    private final CookieService cookieService;
+    
+
     @Autowired
-    private NoteService noteService;
+    public NoteController(NoteService noteService, CookieService cookieService) {
+        this.noteService = noteService;
+        this.cookieService = cookieService;
+    }
+
 
     @GetMapping
     public List<Note> getAllNotes() {
@@ -66,10 +76,13 @@ import jakarta.servlet.http.HttpServletResponse;
     }
 
     @PostMapping
-    public ResponseEntity<Note> createNote(@RequestBody NoteRequest request) {
-        Note note = noteService.createNote(request.getUserId(), request.getNoteValue());
-        System.out.println(note.getUserId());
-        System.out.println(note.getValue());
+    @RequireCookie
+    public ResponseEntity<Note> createNote(@RequestBody NoteRequest request, HttpServletRequest httpRequest) {
+        User cookieUser = cookieService.getUserByCookie(httpRequest);
+        if (cookieUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Note note = noteService.createNote(cookieUser.getId(), request.getNoteValue());
         return ResponseEntity.ok(note);
     }
 

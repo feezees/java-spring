@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,17 +26,16 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping
-    public ResponseEntity<List<String>> getAllUsernames() {
-        List<String> usernames = userRepository.findAll().stream()
-            .map(User::getUsername)
-            .collect(Collectors.toList());
+    public ResponseEntity<List<User>> getAllUsernames() {
+        List<User> usernames = userRepository.findAll();
+
         return ResponseEntity.ok(usernames);
     }
 
     @GetMapping("/{username}")
-    public User getUserByUsername(@PathVariable String username){
+    public User getUserByUsername(@PathVariable String username) {
         User user = userRepository.findByUsername(username);
         System.out.println(user);
         return user;
     }
-} 
+}

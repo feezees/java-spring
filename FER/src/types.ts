@@ -19,6 +19,8 @@ export interface PostDto {
     postBody: PostBodyItem[];
 }
 
+export interface UserDto { id: string, username: string };
+
 export type UserRoles = 'admin' | 'moderator' | 'user';
 
 export type Routes = 'toppings' | 'notes' | 'posts' | 'tenders' | 'users' | '';

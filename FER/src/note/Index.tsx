@@ -1,9 +1,10 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useLayoutEffect, useState } from "react";
 import { saxios } from "../api/axios";
-import { NoteDto } from "../types";
+import { NoteDto, UserDto } from "../types";
 import { Button } from "../ui/Button";
 import { Note } from "./Note";
 import { AddNote } from "./AddNote";
+import { Flex } from "../ui/Flex";
 
 interface NotesProps {
     logout: () => void;
@@ -11,6 +12,25 @@ interface NotesProps {
 
 export const Notes: FC<NotesProps> = ({ logout }) => {
     const [notes, setNotes] = useState<NoteDto | NoteDto[] | undefined>();
+
+    const [users, setUsers] = useState<UserDto[] | undefined>();
+    // const [selectedUser, setSelectedUser] = useState<string | undefined>();
+
+    const getUsers = () => {
+        saxios.get(`/users`)
+            .then((response: any) => {
+                console.log(response);
+                setUsers((response).map((u: UserDto) => ({ id: u.id, username: u.username })));
+                // setNotes(response.data);
+            })
+            .catch(error => {
+                console.error('Ошибка:', error.response ? error.response.data : error.message);
+            });
+    }
+
+    useLayoutEffect(() => {
+        getUsers();
+    }, [])
 
     const handleGetNotesById = (id: string) => {
         saxios.get(`/notes/${id}`)
@@ -27,8 +47,8 @@ export const Notes: FC<NotesProps> = ({ logout }) => {
     const handleGetNotesByUserId = (userId: string) => {
         saxios.get(`/notes/user/${userId}`)
             .then((response: any) => {
-                console.log(response.data);
-                setNotes(response.data as NoteDto[]);
+                console.log(response);
+                setNotes(response as NoteDto[]);
             })
             .catch(error => {
                 logout();
@@ -36,16 +56,14 @@ export const Notes: FC<NotesProps> = ({ logout }) => {
             });
     }
 
-
     return (
         <>
-            <div className='flex gap-2 my-4'>
-                <Button onClick={() => handleGetNotesById('1')} text='handleGetNotesByUserId' />
-                <Button onClick={() => handleGetNotesByUserId('12fba3c3-f3db-4907-9e90-b668efd8c83e	')} text='handleGetNotesByUserId' />
-            </div>
-
             <AddNote />
-            
+
+            <Flex direction="col" gap="sm" additionalStyles='py-2'>
+                {users?.map(u => <Button text={u.username} onClick={() => handleGetNotesByUserId(u.id)} />)}
+            </Flex >
+
             <>
                 {
                     notes && Array.isArray(notes) && notes.map(el => <Note note={el} key={el.id} />

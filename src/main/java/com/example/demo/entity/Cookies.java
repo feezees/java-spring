@@ -5,6 +5,10 @@ import java.util.Optional;
 import jakarta.servlet.http.Cookie;
 
 public class Cookies {
+
+    public Cookies() {
+    }
+
     private static String getCookieByName(Cookie[] cookies, String name) {
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(name)) {

@@ -1,20 +1,20 @@
 import { FC, useEffect, useState } from "react";
 import { saxios } from "../api/axios";
 import { Post } from "../posts/Post";
-import { PostDto } from "../types";
+import { PostDto, UserDto } from "../types";
 import { Button } from "../ui/Button";
 import { Flex } from "../ui/Flex";
 import { Text } from "../ui/Text";
 
 export const Users: FC = () => {
-    const [users, setUsers] = useState<string[] | undefined>();
+    const [users, setUsers] = useState<UserDto[] | undefined>();
     const [selectedUser, setSelectedUser] = useState<string | undefined>();
 
     const getUsers = () => {
         saxios.get(`/users`)
             .then((response: any) => {
                 console.log(response);
-                setUsers(response);
+                setUsers((response).map((u: UserDto) => ({ id: u.id, username: u.username })));
                 // setNotes(response.data);
             })
             .catch(error => {
@@ -64,7 +64,7 @@ export const Users: FC = () => {
 
                 {!selectedUser &&
                     <Flex gap="md" direction="col">
-                        {users?.map(el => <Button text={el} onClick={() => getPosts(el)} />)}
+                        {users?.map(u => <Button text={u.username} onClick={() => getPosts(u.username)} />)}
                     </Flex>
                 }
             </div>
