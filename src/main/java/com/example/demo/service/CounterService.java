@@ -30,6 +30,29 @@ public class CounterService {
         return counter.getCounterValue();
     }
 
+    public Long getCounterValue(String username) {
+        if (!userRepository.existsByUsername(username)) {
+            return -1L; // User not found
+        }
+
+        UserCounter counter = counterRepository.findById(username)
+                .orElse(new UserCounter(username));
+
+        return counter.getCounterValue();
+    }
+
+    public Long getCounter(String username){
+        if (!userRepository.existsByUsername(username)) {
+            return -1L; // User not found
+        }
+
+        UserCounter counter = counterRepository.findById(username)
+                .orElse(new UserCounter(username));
+
+
+        return counter.getCounterValue();
+    }
+
     @Transactional
     public Long incrementCounter(String username) {
         if (!userRepository.existsByUsername(username)) {

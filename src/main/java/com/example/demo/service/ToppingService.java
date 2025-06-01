@@ -18,7 +18,7 @@ public class ToppingService {
     private ToppingRepository toppingRepository;
 
     public boolean setToppings(List<ToppingUpdateRequest> updates) {
-        boolean updated = false;
+        boolean updated = true;
         List<Topping> toppingsToSave = new ArrayList<>();
 
         for (ToppingUpdateRequest update : updates) {
@@ -26,9 +26,12 @@ public class ToppingService {
             if (existingTopping.isPresent()) {
                 Topping topping = existingTopping.get();
                 if (topping.getQuantity() >= update.getCount()) {
-                    topping.setQuantity(topping.getQuantity() - update.getCount());
-                    toppingsToSave.add(topping);
-                    updated = true;
+                    if (updated == true) {
+                        topping.setQuantity(topping.getQuantity() - update.getCount());
+                        toppingsToSave.add(topping);
+                    }
+                } else {
+                    updated = false;
                 }
             }
         }

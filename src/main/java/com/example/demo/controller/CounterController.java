@@ -4,6 +4,9 @@ import com.example.demo.DemoApplication;
 import com.example.demo.annotation.RequireCookie;
 import com.example.demo.entity.Cookies;
 import com.example.demo.service.CounterService;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -24,16 +27,20 @@ public class CounterController {
     @RequireCookie
     public Long getIncrementValue(HttpServletRequest req) {
         String cookieUser = cookieEntity.getCookiesUser(req);
-        Long userCounterValue = counterService.incrementCounter(cookieUser);
+        Long userCounterValue = counterService.getCounter(cookieUser);
 
         return userCounterValue;
     }
 
-    @PostMapping
-    public Long incrementCounter(@RequestBody String username) {
-        Long newValue = counterService.incrementCounter(username);
-        DemoApplication.logCounterResponse(new CounterResponse(username, newValue));
-        return newValue;
+    @RequireCookie
+    @PutMapping("/increment")
+    public ResponseEntity<Long> incrementCounter(HttpServletRequest request) {
+        String cookieUser = cookieEntity.getCookiesUser(request);
+        Long newCounterValue = counterService.incrementCounter(cookieUser);
+        if (newCounterValue == -1L) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(newCounterValue);
+        }
+        return ResponseEntity.ok(newCounterValue);
     }
 }
 

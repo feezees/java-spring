@@ -6,7 +6,7 @@ import { useCounter } from "./CounterContext";
 export const Counter = () => {
     const { counterValue, setCounterValue } = useCounter();
 
-    const handleCounter = async () => {
+    const getCounter = async () => {
         try {
             const data = await saxios.get<string>('/counter');
             setCounterValue(data);
@@ -15,11 +15,20 @@ export const Counter = () => {
         }
     }
 
+    const incrementCounter = async () => {
+        try {
+            const data = await saxios.put<string>('/counter/increment');
+            setCounterValue(data);
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    }
+
     useLayoutEffect(() => {
-        handleCounter();
+        getCounter();
     }, []);
 
     return <div>
-        <Button text={'💸💰 Counter:  ' + counterValue} onClick={handleCounter} />
+        <Button text={'💸💰 Counter:  ' + counterValue} onClick={incrementCounter} />
     </div>
 }
