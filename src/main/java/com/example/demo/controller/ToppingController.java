@@ -52,25 +52,14 @@ public class ToppingController {
             @RequestBody List<ToppingUpdateRequest> updates) {
         String cookieUser = cookieEntity.getCookiesUser(request);
 
-        // балик типА
         Long userCounterValue = counterService.getCounterValue(cookieUser);
 
-        // сумма всех топингов
-        long totalToppingsPrice = 0;
-        for (ToppingUpdateRequest update : updates) {
-            Topping topping = toppingRepository.findById(update.getId()).orElse(null);
-            if (topping != null) {
-                totalToppingsPrice += topping.getPrice().multiply(new BigDecimal(update.getCount())).longValue();
-            }
-        }
-
-        System.out.println(totalToppingsPrice);
+        long totalToppingsPrice = toppingService.calculateTotalToppingsPrice(updates);
 
         if (userCounterValue < totalToppingsPrice) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
 
-        // вычесть кол-во
         boolean updated = toppingService.setToppings(updates);
 
         if (updated) {

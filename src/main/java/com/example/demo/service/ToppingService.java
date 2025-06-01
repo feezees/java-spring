@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,5 +41,16 @@ public class ToppingService {
             toppingRepository.saveAll(toppingsToSave);
         }
         return updated;
+    }
+
+    public long calculateTotalToppingsPrice(List<ToppingUpdateRequest> updates) {
+        long totalToppingsPrice = 0;
+        for (ToppingUpdateRequest update : updates) {
+            Topping topping = toppingRepository.findById(update.getId()).orElse(null);
+            if (topping != null) {
+                totalToppingsPrice += topping.getPrice().multiply(new BigDecimal(update.getCount())).longValue();
+            }
+        }
+        return totalToppingsPrice;
     }
 }
