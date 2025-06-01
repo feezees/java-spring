@@ -16,12 +16,7 @@ export const Adding = ({ handleSetStep }: { handleSetStep: (step: 'init' | 'addi
 
     const [done, setDone] = useState(false);
 
-    useLayoutEffect(() => {
-        handleCounter();
-    }, [])
-
     const handleFetchToppings = () => {
-        // zxc\
         handleCounter();
         saxios.get('/toppings').then((res: any) => setToppings(res)).catch(() => { });
     }

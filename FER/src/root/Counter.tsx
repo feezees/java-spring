@@ -4,16 +4,7 @@ import { saxios } from "../api/axios";
 import { useCounter } from "./CounterContext";
 
 export const Counter = () => {
-    const { counterValue, setCounterValue } = useCounter();
-
-    const getCounter = async () => {
-        try {
-            const data = await saxios.get<string>('/counter');
-            setCounterValue(data);
-        } catch (error) {
-            console.error('Ошибка:', error);
-        }
-    }
+    const { counterValue, setCounterValue, handleCounter } = useCounter();
 
     const incrementCounter = async () => {
         try {
@@ -25,7 +16,7 @@ export const Counter = () => {
     }
 
     useLayoutEffect(() => {
-        getCounter();
+        handleCounter();
     }, []);
 
     return <div>

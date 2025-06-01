@@ -13,7 +13,7 @@ function App() {
 
   useLayoutEffect(() => {
     handleCheckAuth();
-  }, [handleCheckAuth]);
+  }, []);
 
   useEffect(() => {
     console.log(authLoading);
@@ -28,18 +28,16 @@ function App() {
   }
 
   return (
-    <React.StrictMode>
-      <BrowserRouter>
-        <CounterProvider>
-          <Index
-            logout={logout}
-            handleLogout={handleLogout}
-            showProfile={showProfile}
-            toggleShowProfile={toggleShowProfile}
-          />
-        </CounterProvider>
-      </BrowserRouter>
-    </React.StrictMode>
+    <BrowserRouter>
+      <CounterProvider>
+        <Index
+          logout={logout}
+          handleLogout={handleLogout}
+          showProfile={showProfile}
+          toggleShowProfile={toggleShowProfile}
+        />
+      </CounterProvider>
+    </BrowserRouter>
   );
 }
 
