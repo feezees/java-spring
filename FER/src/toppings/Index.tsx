@@ -1,14 +1,6 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from "react"
-import { saxios } from "../api/axios"
-import { Topping } from "../types";
-import { Flex } from "../ui/Flex";
-import { Loading } from "../root/Loading";
-import { Divider } from "../ui/Divider";
-import { Text } from "../ui/Text";
+import { useState } from "react";
 import { Button } from "../ui/Button";
-import React from "react";
-import { useCounter } from "../root/CounterContext";
-import { Layout } from "../ui/Layout";
+import { Flex } from "../ui/Flex";
 import { Header } from "../ui/Header";
 import { Adding } from "./Add/Index";
 
