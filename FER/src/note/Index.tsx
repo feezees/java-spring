@@ -3,6 +3,7 @@ import { saxios } from "../api/axios";
 import { NoteDto } from "../types";
 import { Button } from "../ui/Button";
 import { Note } from "./Note";
+import { AddNote } from "./AddNote";
 
 interface NotesProps {
     logout: () => void;
@@ -15,7 +16,7 @@ export const Notes: FC<NotesProps> = ({ logout }) => {
         saxios.get(`/notes/${id}`)
             .then((response: any) => {
                 console.log(response.data);
-                setNotes(response.data as NoteDto);
+                setNotes(response as NoteDto);
             })
             .catch(error => {
                 logout();
@@ -43,6 +44,8 @@ export const Notes: FC<NotesProps> = ({ logout }) => {
                 <Button onClick={() => handleGetNotesByUserId('12fba3c3-f3db-4907-9e90-b668efd8c83e	')} text='handleGetNotesByUserId' />
             </div>
 
+            <AddNote />
+            
             <>
                 {
                     notes && Array.isArray(notes) && notes.map(el => <Note note={el} key={el.id} />
